@@ -36,14 +36,17 @@ func (p *Processor) Fetch(limit int) ([]events.Event, error) {
 	if err != nil {
 		return nil, e.Wrap("can't get events", err)
 	}
+
 	if len(updates) == 0 {
 		return nil, nil
 	}
+
 	res := make([]events.Event, 0, len(updates))
 
 	for _, u := range updates {
 		res = append(res, event(u))
 	}
+
 	p.offset = updates[len(updates)-1].ID + 1
 
 	return res, nil
